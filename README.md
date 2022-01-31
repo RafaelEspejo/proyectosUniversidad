@@ -1,2 +1,2 @@
-# proyectosUniversidad
+# Proyectos Universidad
 Repositorio de proyectos hechos en la Universidad que sirven para valorar mis conocimientos
