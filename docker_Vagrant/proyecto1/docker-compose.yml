@@ -1,0 +1,40 @@
+version: '2.4'
+networks:
+        practica:
+          name: practica
+          driver: bridge
+          ipam:
+            driver: default
+            config:
+              - subnet: 10.0.1.0/24
+                gateway: 10.0.1.1
+services:
+        app1:
+            build:
+                context: ./
+                dockerfile: dockerfile1
+            hostname: app1
+            container_name: app1
+            networks:
+                practica:
+            ports:
+              - "9001:8080"
+        app2:
+            image: tomcat:8.0
+            hostname: app2
+            container_name: app2
+            networks:
+                practica:
+            ports:
+              - "9002:8080"
+        balancer:
+            build: .
+            hostname: balancer
+            container_name: balancer
+            networks:
+                practica:
+            ports:
+              - "80:80"
+            links:
+              - "app1:app1"
+              - "app2:app2"

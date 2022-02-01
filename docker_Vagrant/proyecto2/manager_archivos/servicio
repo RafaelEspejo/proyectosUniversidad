@@ -1,0 +1,150 @@
+#!/bin/bash
+
+replicas=5 #numeros de replicas por defecto
+nombre="php" #nombre del servicio por defecto
+image="readeveloper/web1:v1" #imagen del servicio por defecto
+
+if [ $1 ]; then
+	case $1 in
+		("global")
+			if [[ $2 ]] && [[ $2 != " " ]]; then
+				nombre=$2
+			fi
+			if [[ $3 ]] && [[ $3 != " " ]]; then
+				image=$3
+			fi
+			echo ""
+			echo "Creando servicio global $nombre usando la imagen $image"
+			echo ""
+			sudo docker service create --name $nombre -p 80:80 --mode global $image #servicio global
+		;;
+		("replicas")
+			if [[ $2 ]] && [[ $2 =~ [0-9] ]]; then
+				if [[ ${2:0:1} != "-" ]]; then
+					replicas=$2
+				else
+					echo ""
+					echo "Solo se aceptan numeros positivos. Se cogera por defecto el numero de replicas definido en este script"
+					echo ""
+				fi
+			fi
+			if [[ $3 ]] && [[ $3 != " " ]]; then
+				nombre=$3
+			fi
+			if [[ $4 ]] && [[ $4 != " " ]]; then
+				image=$4
+			fi
+			echo ""
+			echo "Creando un servicio replicado de $replicas replicas con el nombre del servicio $nombre usando la imagen $image"
+			echo ""
+			sudo docker service create --replicas $replicas --name $nombre -p 80:80 $image #servicio replicado
+		;;
+		("escalar")
+            if [[ $2 ]]; then
+                if [[ ${2:0:1} != "-" ]] && [[ $2 =~ [0-9] ]]; then
+                    if [[ $3 ]] && [[ $3 != " " ]]; then
+                            nombre=$3
+                    fi
+                    sudo docker service scale $nombre=$2
+                else
+                    echo ""
+                    echo "No se ha encontrado un numero. Recuerda que no se aceptan numeros negativos."
+                    echo ""
+                fi
+            else
+                    echo ""
+                    echo "Debes pasar un numero de replicas"
+                    echo
+            fi
+        ;;
+		("ls")
+            sudo docker service ls
+        ;;
+		("ps")
+			if [[ $2 ]] && [[ $2 != " " ]]; then
+				nombre=$2
+			fi
+			sudo docker service ps $nombre
+		;;
+		("inspect")
+			if [[ $2 ]] && [[ $2 != " " ]]; then
+				nombre=$2
+			fi
+			sudo docker service inspect $nombre
+		;;
+		("log")
+			if [[ $2 ]] && [[ $2 != " " ]]; then
+				nombre=$2
+			fi
+				sudo docker service logs $nombre
+		;;
+		("rm")
+			if [[ $2 ]] && [[ $2 != " " ]]; then
+                nombre=$2
+            fi
+			sudo docker service rm $nombre
+		;;
+		("ayuda")
+			echo ""
+			echo "Opciones de uso del programa servicio:"
+			echo ""
+			echo "global: crea un servicio global."
+			echo "        Ejemplo de uso: servicio global nombre_del_servicio imagen_contenedor"
+			echo "        si se usa asi servicio global cogera por defecto el nombre de servicio y la imagen definidos en este script"
+			echo "        que seria php y la imagen creada para la practica y explicada en el informe"
+			echo ""
+			echo "replicas: crea un servicio replicado."
+			echo "        Ejemplo de uso: servicio replicas numero_de_replicas nombre_del_servicio imagen_contenedor"
+			echo "        si se usa asi: servicio replicas cogera por defecto el numero de replicas, el nombre de servicio"
+			echo "        y la imagen definidos en este script que seria 5, php y la imagen creada para la practica y explicada en el informe"
+			echo ""
+			echo "escalar: aumenta o disminuye el numero de replicas del servicio creado, solo acepta numeros positivos"
+			echo "        Ejemplo de uso: servicio escalar numero_de_replicas nombre_del_servicio"
+			echo "        el parametro de numero_de_replicas es obligatorio pero si no se pasa parametro de nombre_del_servicio se cogera"
+			echo "        el nombre por defecto definido en el script"
+			echo "        servicio escalar numero_de_replicas"
+			echo ""
+			echo "ls: esta opcion devuelve informacion de todos los servicos que existen en el cluster"
+			echo "      Ejemplo de uso: servicio info"
+			echo ""
+			echo "ps: esta opcion devuelve informacion del servicio, siempre que exista, de como el manager del cluster"
+			echo "          ha divido la tareas entre los workers del cluster"
+			echo "          Ejemplo de uso: servicio infoServ nombre_del_servicio"
+			echo "          si no se pasa un nombre_del_servicio se coge por defecto el definido en este script que es php"
+			echo ""
+			echo "inspect: esta opcion devuelve mas informacion sobre un servicio, siempre que exista"
+			echo "           nos da informacion sobre la red del servicio, numero de replicas, etc..."
+			echo "           Ejemplo de uso: servicio inspeServ nombre_del_servicio"
+			echo "           si no se pasa un nombre_del_servicio se coge por defecto el definido en este script que es php"
+			echo ""
+			echo "log: esta opcion devuelve la informacion del log del servicio"
+			echo "         Ejemplo de uso: servicio logServ nombre_del_servicio"
+			echo "         si no se le pasa un nombre_del_servicio se coge por defecto el definido en el script."
+			echo ""
+			echo "rm: elimina un servicio que exista en nuestro cluster"
+			echo "        Ejemplo de uso: servicio rmServ nombre_del_servicio"
+			echo "        si no se pasa un nombre_del_servicio se coge por defecto el definido en este script que es php"
+			echo ""
+		;;
+		(*)
+			echo ""
+			echo "No existe la opcion $1 introducida."
+			echo "Para mas informacion introduzca servicio ayuda para ver las opciones del programa."
+			echo ""
+		;;
+	esac
+else
+	echo ""
+	echo "No se acepta que el primer parametro este vacio."
+	echo "Introduzca una de las siguientes opciones: "
+	echo "global"
+	echo "replicas"
+	echo "escalar"
+	echo "ls"
+	echo "ps"
+	echo "inspect"
+	echo "rm"
+	echo "ayuda"
+	echo "Si no sabe como usar las opciones utilice servicio ayuda para acceder al pequeño manual que explica las opciones."
+	echo ""
+fi

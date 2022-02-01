@@ -1,0 +1,630 @@
+/*
+    To change this license header, choose License Headers in Project Properties.
+    To change this template file, choose Tools | Templates
+    and open the template in the editor.
+*/
+
+/*
+* CSS VARIABLES
+*/
+
+
+:root {
+    
+    /* BACKGROUND */
+    --HeaderBackgroundColor: #971919; /* Color principal de la cabecera */
+    --MenuBackgroundColor: #700000; /* Color principal de los botones de la parte superior derecha */
+    --MenuBackrgoundColorHOVER: #590000; /* Color principal de los botones de la parte superior derecha cuando se posiciona el raton */
+    --FooterBackgroundColor: #202020; /* Color principal del Footer excepto del copyright */
+    --CopyrightBackgroundColor: #363636; /* Color de la barra de copyright situada en la parte inferior */
+    
+    /* BORDER COLORS */
+    --MenuBorderColor: #7f7f7f; /* Border del menu de la parte superior derecha */
+    
+    /* BUTTONS COLOR */
+    --BuscadorColorBoton: #c60000; /* Color del boton del buscador */
+}
+
+body {
+    background-color: #f4f4f4;
+    font-family: "Palatino Linotype";
+    margin: 0% 0% 0% 0%;
+}
+
+/* Eliminamos las propiedades predeminadas de los vinculos */
+a
+{ 
+    color: inherit;
+    text-decoration: none;
+} 
+
+/* HTML Tags generales para configurar algunos aspectos de la descripcion, como los colores del precio, tamaño del titulo, etc */
+
+b { color: black; }
+
+h1, h2, h3, h4 { font-family: Tahoma, Geneva, sans-serif; font-weight: 100; } /* Propiedades comunes de los precios y titulo */
+
+h2, h3, h4 { font-size: 14px; line-height: 0.75%; } /* Propiedades comunes de los precios */
+
+h2 { color: #ffafaf; } /* "Precio recomendado" */
+
+h3 { color: #db0000; } /* "Precio" */
+
+h4 { margin-top: 0; color: #8e0000; } /* "Ahorras" */
+
+/*
+* MAIN NAV BEGIN
+*/
+
+nav{
+    background-color: var(--HeaderBackgroundColor);
+    height: 50px;
+}
+
+/* 
+ * TITULO
+ */
+
+nav div.left {
+    color: #ffffff;
+    font-size: 220%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bolder;
+    text-shadow: 2px 2px #1e1e1e;
+    padding-left: 50px;
+    padding-top: 10px;
+    float: left;
+}
+
+/* 
+ * BUSCADOR
+ */
+
+nav input
+{
+    margin-top: 12px;
+    border-style:solid;
+    border-width: 1px;
+    border-color: #999999;
+}
+
+nav input[type="text"]
+{
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-right-style: none;
+    padding-left: 10px;
+    color: #7c7c7c;
+    margin-left: 130px;
+    height: 30px;
+    font-size: 100%;
+    letter-spacing: 0.05em; /* Espacio entre letras. EM es la unidad para la tipografia 1em significa literalmente una M */
+    width: 15%;
+    float: left;
+}
+
+nav input[type="button"]
+{
+    background-color: var(--BuscadorColorBoton);
+    color: white;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-size: 145%;
+    font-family: monospace;
+    width: 90px;
+    height: 34px;
+}
+
+/* 
+ * MENU
+ */
+
+nav div.right {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    height: 40px;
+    border-left-style: solid;
+    border-left-width: 2px;
+    border-left-color: var(--MenuBorderColor);
+    border-bottom-left-radius: 10px;
+    background-color: var(--MenuBackgroundColor);
+}
+
+nav div.right ul {
+    list-style: none;
+    margin-top: 0;
+    padding-top: 0;
+    padding-right: 0px;
+    padding-left: 0px;
+    box-shadow: 10px 0px 0px white;
+}
+
+/* El primer boton de la parte derecha */
+nav div.right li:last-child
+{
+    border-bottom-left-radius: 10px;
+}
+
+nav div.right li {
+    float: right;
+    padding: 0 10px 7px 10px; /* Top Right Bottom Left */
+    font-size: 150%;
+    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+    color: #f2f2f2;
+    text-shadow: 1px 2px #630000;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--MenuBorderColor);
+    
+}
+
+nav div.right li:hover {
+    color: #f7f7f7;
+    background-color: var(--MenuBackrgoundColorHOVER);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--MenuBorderColor);
+}
+
+/* 
+ * CATEGORIAS
+ */ 
+
+nav div.down {
+    float: left;
+    width: 100%;
+}
+
+nav div.down ul {
+    margin-top: 0;
+    padding: 20px 0px 10px 50px; /* Top Right Bottom Left */
+    background-color: var(--HeaderBackgroundColor);
+    font-weight: 700;
+    height: 30px;
+    box-shadow: 10px 0px 0px white;
+    border-bottom-color: #3d3d3d;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+nav div.down li {
+    display: inline;
+    padding: 0% 10px 5px 10px; /* Top Right Bottom Left */
+    height: 60px;
+    font-size: 100%;
+    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+    color: #f2f2f2;
+}
+
+/* 
+ * SUBMENUS
+ */
+
+nav div.down ul li ul 
+{
+    display: none; /* Se oculta cuando se carga */
+    position:absolute; /*La posicion se especifica por las propiedades left, right, top, bottom*/
+    left: 0; /*Hazemos que la barra se quede pegada al borde de la pagina*/
+    right: 0; /* Con esto conseguimos que la barra llegue hasta la parte derecha */
+    border-top-style: solid;
+    border-top-color: #9b9b9b;
+    border-top-width: 1px;
+    margin-top: 10px;
+    padding: 10px 0 10px 48px; /* Top Right Bottom Left */
+    height: fit-content;
+}
+
+/* 
+ * CATALOG
+ */
+
+section
+{
+    top: 130px;
+    position: absolute;
+}
+
+table
+{
+    margin-left: 150px;
+    margin-top: 0px;
+    border-collapse: separate; /* Separamos los bordes de la celdas */
+    border-spacing: 10px 50px; /* Configuramos la distancia entre los bordes */
+}
+
+.productimg
+{
+    padding-right: 20px;
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-right-color: #b5b5b5;
+}
+
+.productimg img 
+{
+    width: 250px;
+    height: 200px;
+}
+
+.description
+{
+    vertical-align: central;
+    padding-left: 20px;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+
+/* 
+ * FOOTER
+ */
+
+footer
+{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--FooterBackgroundColor);
+    color: white;
+}
+
+footer div 
+{
+    margin-top: 15px;
+    font-size: 80%;
+    
+    padding-left: 15px;
+    padding-bottom: 40px;
+    font-family: Tahoma;
+}
+
+footer div.left
+{
+    float: left;
+    margin-left: 20px; 
+    width: 20%;
+}
+
+footer div.center
+{
+    float: left;
+    margin-left: 11%;
+    width: 25%;
+}
+
+footer div.right
+{
+    float: right;
+    margin-right: 20px;
+    width: 25%;
+    line-height: 140%; /* Espacio entre las lineas */
+}
+
+footer div.copyright
+{
+    position: fixed;
+    bottom: 0;
+    padding: 5px 0 0 5px; /* Top Right Bottom Left */
+    width: 100%;
+    text-align: center;
+    background-color: var(--CopyrightBackgroundColor);
+}
+
+/* 
+ * EMAIL SUBSCRIBE
+ */
+
+footer div.left input[type="text"]
+{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding-left: 5px;
+    height: 30px;
+    width: 60%;
+    border-style: outset;
+    border-width: 1px;
+    color: #3a3a3a;
+    border-right-style:none;
+    float: left; /* Con el float:left; conseguimos que el text y el submit esten pegados */
+    letter-spacing: 0.05em; /* Espacio entre letras. EM es la unidad para la tipografia 1em significa literalmente una M */
+}
+
+footer div.left input[type="submit"]
+{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    width: 90px;
+    height: 34px;
+    border-style: outset;
+    border-width: 1px;
+    color: #3a3a3a;
+}
+
+/* 
+ * SOCIAL MEDIA
+ */
+
+footer div.center ul 
+{
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+    overflow: hidden;
+}
+
+footer div.center ul li {
+    float: left;
+    padding-right: 10px;
+}
+
+/* 
+ * FA ICONS
+ */
+
+/* Style of the social media icons */
+.fa {
+    padding: 20px;
+    font-size: 40px;
+    width: 20px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 10px;
+}
+
+/* Add a hover effect if you want */
+.fa:hover {
+    opacity: 0.7;
+}
+
+/* Facebook */
+.fa-facebook {
+    background: #3B5998;
+    color: white;
+}
+
+/* Twitter */
+.fa-twitter {
+    background: #55ACEE;
+    color: white;
+}
+
+/* Google + */
+.fa-google {
+  background: #dd4b39;
+  color: white;
+}
+
+/* Linkedin */ 
+.fa-linkedin {
+  background: #007bb5;
+  color: white;
+}
+
+/* Youtube */
+.fa-youtube {
+  background: #bb0000;
+  color: white;
+}
+
+/* Instragram */
+.fa-instagram {
+  background: #125688;
+  color: white;
+}
+
+/* 
+ * COMMON FOR ADMIN AND LOGIN FORM
+ */
+#loginadmin, #loginuser
+{
+    position: absolute;
+    padding-left: 20px;
+    margin: -77px 0 0 -200px; /* Top Right Bottom Left */
+    top: 50%; 
+    left: 50%;
+    height: 155px;
+    width: 400px;
+    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 700;
+    border-style: solid;
+    border-color: #a5a5a5;
+    border-width: 1px;
+    border-radius: 5px;
+}
+
+.input
+{
+    padding-left: 10px;
+    color: #7c7c7c;
+    letter-spacing: 0.05em;
+    position: absolute;
+    right: 20px;
+    height: 20px;
+    width: 60%;
+    border-radius: 5px;
+    border-style: outset;
+    border-width: 1px;
+    color: #3a3a3a;
+}
+
+.deleteProductButton
+{
+    border-radius: 5px;
+    width: 90px;
+    height: 34px;
+    border-style: outset;
+    border-width: 1px;
+    color: #3a3a3a;
+    background-color: white;
+}
+
+body div form input[type="submit"]
+{
+    position: absolute;
+    left: 135px;
+    border-radius: 5px;
+    width: 90px;
+    height: 34px;
+    border-style: outset;
+    border-width: 1px;
+    color: #3a3a3a;
+    background-color: white;
+}
+
+/*
+ * ADMIN LOGIN FORM
+ */
+#loginadmin 
+{
+    color: #f2f2f2;
+    background-color: var(--HeaderBackgroundColor);
+}
+
+/* 
+ * LOGIN USER
+ */
+#loginuser
+{
+    display: none;
+    color: #232323;
+    padding-top: 23px;
+}
+
+#logintitle
+{
+    background-color: #969696;
+    position: absolute;
+    text-align: right;
+    font-size: 15px;
+    padding-right: 5px;
+    color: #efefef;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 20px;
+    border-style: solid;
+    border-color: #a5a5a5;
+    border-width: 1px;
+}
+
+/* 
+ * REGISTER USER 
+ */
+
+#registeruser
+{
+   position: relative;
+   width: 400px;
+   font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+   color: #f2f2f2;
+   font-weight: 700;
+   border-style: solid;
+   border-color: #a5a5a5;
+   border-width: 1px;
+   border-radius: 5px;
+   background-color: var(--HeaderBackgroundColor);
+   padding-left: 20px;
+}
+
+/* REGISTER USER FORM FOR MOZILLA */
+@-moz-document url-prefix() {
+      #registeruser
+    {
+        margin-left: 63%;
+        margin-top: 13%;
+        height: 340px;
+    }
+}
+
+/* REGISTER USER FORM FOR CHROME */
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+     #registeruser
+    {
+        margin-left: 180%;
+        margin-top: 30%;
+        height: 320px;
+    }
+}
+
+body div form input[type="button"]
+{
+    position: absolute;
+    left: 135px;
+    border-radius: 5px;
+    width: 90px;
+    height: 34px;
+    border-style: outset;
+    border-width: 1px;
+    color: #3a3a3a;
+    background-color: white;
+}
+
+/* 
+ * PRODUCT DESCRIPTION 
+ */
+
+/* La tabla donde se muestra la imagen y la descripcion */
+#productdescription
+{
+    margin-left: 150px;
+    margin-top: 0px;
+    border-collapse: separate;
+    border-spacing: 10px 50px;
+}
+
+/* La primera celda. Simplemente estamos configurando el borde que separa la imagen y la descripcion */
+#productdescription tr td:first-child
+{
+    padding-right: 20px;
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-right-color: #b5b5b5;
+}
+
+/* La imagen del producto */
+#productdescription tr td img 
+{
+    width: 500px;
+    height: 400px;
+}
+
+/* La descripcion del producto */
+#productdescription tr td
+{
+    vertical-align: top;
+    padding-left: 20px;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+/* El boton que esta en la pagina del carrito para comprar */
+#orderbutton, #emptyChart, #productsavebutton, #productpreviewbutton, #producteditbutton, #addchartbutton
+{
+    border-radius: 5px;
+    width: 120px;
+    height: 50px;
+    border-style: outset;
+    border-width: 1px;
+    color: #3a3a3a;
+    background-color: white;
+    font-family: sans-serif;
+    font-size: 20px;
+}
+
+#productsavebutton 
+{
+    width: 100px;
+    height: 30px;
+}
+
+#productpreviewbutton
+{
+    width: 130px;
+    height: 30px;
+}
+
+#emptyChart
+{
+    width: 150px;
+}

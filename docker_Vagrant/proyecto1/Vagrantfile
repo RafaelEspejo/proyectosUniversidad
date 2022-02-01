@@ -1,0 +1,56 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://vagrantcloud.com/search.
+  config.vm.define "Balanceador" do |app|
+      app.vm.box= "centos/8"
+      app.vm.hostname="Balanceador"
+      app.vm.network "forwarded_port", guest: 80, host: 80
+      app.vm.network "forwarded_port", guest: 9001, host: 9001
+      app.vm.network "forwarded_port", guest: 9002, host: 9002
+      app.vm.network "private_network", ip:"192.168.20.10"
+      app.vm.provider"virtualbox" do |vb|
+		vb.name = "Balanceador"
+        vb.memory="1024"
+        vb.cpus="2"
+      end
+  end 
+   config.vm.provision "file", source: "docker-compose.yml", destination: "~/docker-compose.yml"
+   config.vm.provision "file", source: "nginx.conf", destination: "~/nginx.conf"
+   config.vm.provision "file", source: "dockerfile", destination: "~/dockerfile"
+   config.vm.provision "file", source: "dockerfile1", destination: "~/dockerfile1"
+   config.vm.provision "shell", inline: <<-SHELL
+	  sudo su
+      dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+      dnf list docker-ce
+      dnf install docker-ce  --nobest -y
+      systemctl start docker | systemctl enable docker
+	  
+      # install docker-compose
+    curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) > ./docker-compose
+    mv docker-compose /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
+	ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+	
+	#descarga del sample.war renombrandolo como ROOT.war
+	curl https://tomcat.apache.org/tomcat-7.0-doc/appdev/sample/sample.war --output ROOT.war
+	
+	#iniciando el docker-compose.yml
+	docker-compose up -d 
+    SHELL
+	
+	#orden de iniciar los contenedores siempre en ejecuciones a posteriori
+	config.vm.provision "shell",
+	run: "always",
+	inline: "sudo docker-compose start"
+end
